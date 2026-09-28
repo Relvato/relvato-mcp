@@ -85,6 +85,26 @@ In `.vscode/mcp.json`. VS Code asks for the key once and stores it securely, so 
 }
 ```
 
+### Cline
+
+In `cline_mcp_settings.json` (MCP Servers → Configure):
+
+```json
+{
+  "mcpServers": {
+    "relvato": {
+      "type": "streamableHttp",
+      "url": "https://app.relvato.com/api/mcp",
+      "headers": {
+        "Authorization": "Bearer rlv_your_key"
+      }
+    }
+  }
+}
+```
+
+Agents that set servers up themselves can follow [`llms-install.md`](llms-install.md).
+
 ### Any other client
 
 Add a remote **HTTP** (streamable HTTP) server with the endpoint above and an `Authorization: Bearer rlv_…` header.
