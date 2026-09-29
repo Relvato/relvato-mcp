@@ -1,7 +1,15 @@
 # Installing the Relvato MCP server (for AI agents)
 
 Relvato's MCP server is **hosted**. There is nothing to clone, build, or install, and no command or package to run.
-Setup is one config entry pointing at a URL, plus the user's API key.
+Setup is one config entry pointing at a URL. The user then either signs in or gives you an API key:
+
+- **Your client supports MCP sign-in (OAuth)**, as Claude, Claude Code, ChatGPT, VS Code and Cursor do: add the URL
+  alone and let the client start the sign-in. Relvato's sign-in opens in the browser; the user allows access (and picks
+  a workspace if they're in an organization). Skip step 1.
+- **Otherwise** (Cline, scripts), use an API key: follow steps 1 to 3.
+
+If the user belongs to an organization and wants their **personal** workspace, use an API key; sign-in only offers the
+organization's workspaces.
 
 ## 1. Get the user's API key
 
