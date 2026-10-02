@@ -124,6 +124,29 @@ With an API key, VS Code can ask for it once and store it securely, so it never 
 }
 ```
 
+### Gemini CLI
+
+Install the extension from this repository:
+
+```bash
+gemini extensions install https://github.com/Relvato/relvato-mcp
+```
+
+Then run `/mcp auth relvato` and sign in. With an API key instead, add the server to `~/.gemini/settings.json`:
+
+```json
+{
+  "mcpServers": {
+    "relvato": {
+      "httpUrl": "https://app.relvato.com/api/mcp",
+      "headers": {
+        "Authorization": "Bearer rlv_your_key"
+      }
+    }
+  }
+}
+```
+
 ### Cline
 
 In `cline_mcp_settings.json` (MCP Servers → Configure), with an API key:
