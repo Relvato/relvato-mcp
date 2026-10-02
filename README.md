@@ -25,12 +25,17 @@ holds the connection details and the registry entry ([`server.json`](server.json
 | --- | --- |
 | **Endpoint** | `https://app.relvato.com/api/mcp` |
 | **Transport** | Streamable HTTP (stateless JSON-RPC over POST) |
-| **Auth** | Sign in (OAuth 2.1: PKCE, CIMD or DCR, resource indicators), or an API key: `Authorization: Bearer rlv_…` |
+| **Auth** | Sign in (OAuth 2.1: PKCE, Client ID Metadata Documents, resource indicators), or an API key: `Authorization: Bearer rlv_…` |
 | **Registry name** | `com.relvato/relvato` |
 
 ## Sign in (no key needed)
 
-Add the endpoint to your client with nothing else. The first time the client uses it, it opens Relvato's sign-in:
+Sign-in works in clients that identify themselves with a **Client ID Metadata Document** (CIMD): Claude (claude.ai,
+Desktop, and Claude Code 2.1.81 or later), ChatGPT and VS Code. Relvato doesn't offer dynamic client registration, so a
+client that can only register itself that way (Cursor for now, Docker's MCP gateway) uses an
+[API key](#or-use-an-api-key) instead.
+
+In a client that supports it, add the endpoint with nothing else. The first time the client uses it, it opens Relvato's sign-in:
 
 1. [Sign up](https://app.relvato.com/sign-up) (there's a free plan) or sign in.
 2. Allow the client to **read your sites and results** and to **make changes**: add and configure sites and monitors, change schedules
@@ -39,12 +44,13 @@ Add the endpoint to your client with nothing else. The first time the client use
    there, so use an API key for it.**
 
 Discovery follows the MCP authorization spec. A 401 points to
-`/.well-known/oauth-protected-resource/api/mcp`, and the authorization server is `https://clerk.relvato.com`. The scopes
-are `relvato:read`, `relvato:write` and `user:org:read`.
+`/.well-known/oauth-protected-resource/api/mcp`, and the authorization server is `https://clerk.relvato.com`
+(`client_id_metadata_document_supported`; no registration endpoint). The scopes are `relvato:read`, `relvato:write` and
+`user:org:read`.
 
 ## Or use an API key
 
-For scripts, for clients without sign-in, or for your personal workspace while you're in an organization:
+For scripts, for clients that can't sign in (no CIMD support), or for your personal workspace while you're in an organization:
 
 1. Open **API access** from the account menu, or go to [app.relvato.com/api-access](https://app.relvato.com/api-access).
 2. Create a key:
@@ -76,19 +82,23 @@ claude mcp add --transport http relvato https://app.relvato.com/api/mcp --header
 
 ### Cursor
 
-In `~/.cursor/mcp.json` (all projects) or `.cursor/mcp.json` (one project). Cursor offers to sign in:
+In `~/.cursor/mcp.json` (all projects) or `.cursor/mcp.json` (one project), with an API key. Cursor doesn't support
+Client ID Metadata Documents yet, so it can't use Relvato's sign-in:
 
 ```json
 {
   "mcpServers": {
     "relvato": {
-      "url": "https://app.relvato.com/api/mcp"
+      "url": "https://app.relvato.com/api/mcp",
+      "headers": {
+        "Authorization": "Bearer rlv_your_key"
+      }
     }
   }
 }
 ```
 
-To use a key instead, add `"headers": { "Authorization": "Bearer rlv_your_key" }` to the entry.
+Once Cursor supports CIMD, the URL alone will be enough: Cursor will offer to sign in.
 
 ### VS Code
 
@@ -132,7 +142,8 @@ Install the extension from this repository:
 gemini extensions install https://github.com/Relvato/relvato-mcp
 ```
 
-Then run `/mcp auth relvato` and sign in. With an API key instead, add the server to `~/.gemini/settings.json`:
+Then run `/mcp auth relvato` to sign in. If the sign-in doesn't open (it needs CIMD support in the Gemini CLI), use an
+API key: add the server to `~/.gemini/settings.json`:
 
 ```json
 {
@@ -169,8 +180,9 @@ Agents that set servers up themselves can follow [`llms-install.md`](llms-instal
 
 ### Any other client
 
-Add a remote **HTTP** (streamable HTTP) server with the endpoint above. If the client supports MCP sign-in (OAuth), that's
-all. Otherwise add an `Authorization: Bearer rlv_…` header. In the common `mcp.json` format:
+Add a remote **HTTP** (streamable HTTP) server with the endpoint above. If the client supports MCP sign-in with Client
+ID Metadata Documents (CIMD), that's all. Otherwise (including clients that only do dynamic client registration) add an
+`Authorization: Bearer rlv_…` header. In the common `mcp.json` format:
 
 ```json
 {

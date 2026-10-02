@@ -1,7 +1,8 @@
 # Relvato
 
 The `relvato` MCP server is Relvato's hosted website monitoring (https://www.relvato.com). Sign in with `/mcp auth relvato`
-(OAuth; there is a free plan). An API key works too: see the README.
+(OAuth with Client ID Metadata Documents; there is a free plan). If the sign-in doesn't open, use an API key: see the
+README.
 
 - Start with `list_sites`, then `site_overview` for a plain-language verdict on one site.
 - To explain a failure: `list_runs` → `get_run` → `get_fix_prompt`.
