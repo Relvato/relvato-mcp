@@ -190,8 +190,10 @@ Add the [dsh-plugin-relvato](https://github.com/Relvato/dsh-plugin-relvato) bund
 `RELVATO_API_KEY` (your environment or `~/.dsh/.env`):
 
 ```bash
-dsh plugin --profile web add github:Relvato/dsh-plugin-relvato
+dsh plugin --profile web add dsh-plugin-relvato
 ```
+
+It's on npm; `github:Relvato/dsh-plugin-relvato` installs it straight from GitHub.
 
 dsh's MCP client sends headers and has no sign-in, so it uses the key. The tools appear as `mcp__relvato__<tool>`.
 
