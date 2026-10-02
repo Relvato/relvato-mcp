@@ -33,7 +33,7 @@ holds the connection details, the registry entry ([`server.json`](server.json)) 
 
 Sign-in works in clients that identify themselves with a **Client ID Metadata Document** (CIMD): Claude (claude.ai,
 Desktop, and Claude Code 2.1.81 or later), ChatGPT and VS Code. Relvato doesn't offer dynamic client registration, so a
-client that can only register itself that way (Cursor for now, Docker's MCP gateway) uses an
+client that can only register itself that way (Cursor for now, the Gemini CLI, Docker's MCP gateway) uses an
 [API key](#or-use-an-api-key) instead.
 
 In a client that supports it, add the endpoint with nothing else. The first time the client uses it, it opens Relvato's sign-in:
@@ -163,8 +163,12 @@ Install the extension from this repository:
 gemini extensions install https://github.com/Relvato/relvato-mcp
 ```
 
-Then run `/mcp auth relvato` to sign in. If the sign-in doesn't open (it needs CIMD support in the Gemini CLI), use an
-API key: add the server to `~/.gemini/settings.json`:
+It asks for your Relvato API key ([create one](https://app.relvato.com/api-access)) and keeps it in your system
+keychain; it never sits in a file. To change it later: `gemini extensions config relvato`. The Gemini CLI can't use
+Relvato's sign-in (it supports only dynamic client registration, which Relvato doesn't offer), so the extension uses the
+key.
+
+Without the extension, add the server to `~/.gemini/settings.json`:
 
 ```json
 {

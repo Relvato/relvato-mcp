@@ -1,11 +1,22 @@
 {
   "name": "relvato",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Website monitoring your AI agent can run: add sites, set up and run monitors, read health, performance and uptime, review results with undo, and apply the fix a run proposes.",
   "mcpServers": {
     "relvato": {
-      "httpUrl": "https://app.relvato.com/api/mcp"
+      "httpUrl": "https://app.relvato.com/api/mcp",
+      "headers": {
+        "Authorization": "Bearer ${RELVATO_API_KEY}"
+      }
     }
   },
+  "settings": [
+    {
+      "name": "Relvato API key",
+      "description": "A Relvato API key (starts with rlv_). Create one at https://app.relvato.com/api-access: full access to set up and run monitors, or read-only.",
+      "envVar": "RELVATO_API_KEY",
+      "sensitive": true
+    }
+  ],
   "contextFileName": "GEMINI.md"
 }
