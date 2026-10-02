@@ -19,7 +19,8 @@ goes deepest on WordPress & WooCommerce.
 
 This is Relvato's **hosted** [Model Context Protocol](https://modelcontextprotocol.io) server. There's nothing to
 install or run: point your MCP client at the URL and **sign in to Relvato**, or use a Relvato API key. This repository
-holds the connection details and the registry entry ([`server.json`](server.json)). The server itself runs at Relvato.
+holds the connection details, the registry entry ([`server.json`](server.json)) and the Claude Code plugin
+([`.claude-plugin/`](.claude-plugin), [`skills/`](skills)). The server itself runs at Relvato.
 
 | | |
 | --- | --- |
@@ -69,6 +70,26 @@ For scripts, for clients that can't sign in (no CIMD support), or for your perso
 sign in.
 
 ### Claude Code
+
+**The plugin** (recommended): the server plus three skills for working from a code repo.
+
+```bash
+claude plugin marketplace add Relvato/relvato-mcp
+claude plugin install relvato@relvato
+```
+
+Then run `/mcp`, choose **plugin:relvato:relvato**, then **Authenticate**. The skills:
+
+| Skill | What it does |
+| --- | --- |
+| `/relvato:setup [url]` | Adds the site this repo deploys, proves ownership (it can add the verification meta tag to your code), picks monitors for what matters and starts the first runs. |
+| `/relvato:check-after-deploy [site] [group]` | Runs the site's monitors after a deploy, says how long they'll take, and reports what passed and what broke, with links. Only runs when you type it, since runs use your monthly quota. |
+| `/relvato:fix-failure [run]` | Reads a failed run and its fix brief, finds the cause in the code (including what changed since it last passed), makes the smallest fix with your OK, then re-runs that monitor. |
+
+Already added Relvato on claude.ai? With a Claude subscription, that connector shows up in Claude Code too. The skills
+work with either connection.
+
+**Just the server:**
 
 ```bash
 claude mcp add --transport http relvato https://app.relvato.com/api/mcp
