@@ -5,7 +5,7 @@
 <h1 align="center">Relvato MCP server</h1>
 
 <p align="center">
-  Website monitoring your AI agent can run: add a site, pick its checks, run them and explain what broke.<br>
+  Website monitoring your AI agent can run: add a site, set up and tune its monitors, run them, explain what broke and fix it with you.<br>
   <a href="https://www.relvato.com/developers">Developer docs</a> ·
   <a href="https://registry.modelcontextprotocol.io/v0/servers?search=com.relvato">Official MCP Registry</a> ·
   <a href="https://www.relvato.com">relvato.com</a>
@@ -33,7 +33,7 @@ holds the connection details and the registry entry ([`server.json`](server.json
 Add the endpoint to your client with nothing else. The first time the client uses it, it opens Relvato's sign-in:
 
 1. [Sign up](https://app.relvato.com/sign-up) (there's a free plan) or sign in.
-2. Allow the client to **read your sites and results** and to **make changes**: add sites and checks, change schedules
+2. Allow the client to **read your sites and results** and to **make changes**: add and configure sites and monitors, change schedules
    and run scans.
 3. If you belong to an organization, pick which of its workspaces to connect. **Your personal workspace isn't offered
    there, so use an API key for it.**
@@ -48,9 +48,10 @@ For scripts, for clients without sign-in, or for your personal workspace while y
 
 1. Open **API access** from the account menu, or go to [app.relvato.com/api-access](https://app.relvato.com/api-access).
 2. Create a key:
-   - **Full access** lets the agent add sites and checks, change schedules and run scans.
-   - **Read-only** lets it read sites, runs, health overviews, fix briefs and alert settings. With a read-only key the
-     client only sees the read tools.
+   - **Full access** lets the agent add and configure sites and monitors, run them, review results and apply the fixes
+     runs propose.
+   - **Read-only** lets it read everything: sites, health and uptime, performance, runs, monitors, WordPress updates
+     and activity, fix briefs and alert settings. With a read-only key the client only sees the read tools.
 3. Send it as `Authorization: Bearer rlv_…` (or `x-api-key: rlv_…`). A key is shown once. Keep it out of files you
    commit.
 
@@ -164,20 +165,84 @@ all. Otherwise add an `Authorization: Bearer rlv_…` header. In the common `mcp
 
 ## Tools
 
+52 tools, grouped by job in the order `tools/list` sends them. **read** tools work with any connection; **full access** tools need a full-access key, or a sign-in that allowed changes.
+
+### Set up
+
 | Tool | What it does | Access needed |
 | --- | --- | --- |
-| `list_sites` | List the account's websites and whether each is ready to run checks. | read |
-| `site_overview` | Plain-language health verdict: what needs attention, every check with its latest run and schedule, and plan usage. | read |
-| `list_checks` | The checks you can add to a site: what each catches, whether your plan includes it, and which are recommended. | read |
-| `list_runs` | Recent runs, newest first, optionally for one site. | read |
-| `get_run` | One run in detail: status, error, warnings, steps, visual comparisons and the dashboard link. | read |
-| `get_fix_prompt` | For a run that found a problem: the same brief Relvato's own AI answers, to reason about the likely cause and fixes. | read |
-| `get_alert_settings` | Who is told about what: frequency, severity, each channel's state and routing. No URLs or secrets. | read |
+| `list_sites` | List the account's websites and whether each is ready to run monitors. | read |
 | `add_site` | Add a website and get its setup step: connect the WordPress plugin, or verify the domain. | full access |
 | `verify_site` | Check that setup step: the plugin connection, or the domain-verification DNS record or meta tag. | full access |
-| `add_checks` | Add checks to a site. Each one reports added, already there, or why not. | full access |
-| `update_check` | Turn a check on or off, or change its schedule. | full access |
-| `trigger_scan` | Run a site's checks now, or a single check, and get the run IDs back. Uses the monthly run quota. | full access |
+| `start_monitoring_for_goals` | Pick what matters (checkout, security, search, speed, …) and get the monitors that cover it on your plan. | full access |
+| `list_checks` | The monitors you can add to a site: what each catches, whether your plan includes it, and which are recommended. | read |
+| `add_checks` | Add monitors to a site; each one reports added, already there, or why not. | full access |
+| `dismiss_recommendation` | Stop recommending a monitor for a site, or bring dismissed recommendations back. | full access |
+| `calibrate_site` | WooCommerce: read the store again (a product to buy, checkout type, currency) after it changed. | full access |
+| `verify_vitals_beacon` | Check the real-user Web Vitals beacon is installed. | full access |
+
+### Read
+
+| Tool | What it does | Access needed |
+| --- | --- | --- |
+| `site_overview` | Plain-language health verdict: what needs attention, every monitor with its latest run and schedule, plan usage and, on WordPress, the site's AI abilities. | read |
+| `get_site_health` | Pass rate now and over 30 days, the trend over 28–182 days, each group's briefing, and probe uptime with incidents. | read |
+| `get_performance` | Lab and real-user Core Web Vitals, what slows the site down, and the top fixes with steps. | read |
+| `get_check` | One monitor in full: schedule, its own settings (pages, masks, checkout details, …), ignored findings, its recipe if AI-written, latest run. | read |
+| `list_runs` | Recent runs, newest first — by site, monitor or status, with paging. | read |
+| `get_run` | One run in detail: steps, findings, visual comparisons with image links, the fix it proposes, plugins it can update. | read |
+| `get_fix_prompt` | For a run that found a problem: the same brief Relvato's own AI answers, to reason about the likely cause and fixes. | read |
+| `get_updates` | WordPress: auto-update windows and what they updated or rolled back, held versions, safe updates, hardening. | read |
+| `get_safe_update` | Follow a safe plugin update or deactivation until it passes or is undone. | read |
+| `get_quarantine` | Quarantine mode: available or not, on until when, every change it saw, past sessions. | read |
+| `get_activity_log` | WordPress: sign-ins, failed sign-ins, accounts, updates, settings and file edits, within your plan's history. | read |
+| `get_notifications` | The dashboard's notifications: failing monitors, plugin or beacon problems, paused channels, billing. | read |
+| `get_site_settings` | A site's settings — what an agent may change and what stays in the dashboard (never secret values). | read |
+| `get_alert_settings` | Who is told about what: frequency, severity, each channel's state and routing — no URLs or secrets. | read |
+| `get_status_pages` | Status pages and client reports: settings only, never a private link or recipients' addresses. | read |
+
+### Tune
+
+| Tool | What it does | Access needed |
+| --- | --- | --- |
+| `update_check` | Turn a monitor on or off, or change when it runs: schedule, re-runs on WordPress updates, random extra runs. | full access |
+| `update_visual_monitor` | Add pages of your own by address to the visual monitor, set masks, devices, browsers and the threshold. | full access |
+| `update_check_settings` | A monitor's own settings: checkout details, extra pages to scan, what the site's AI feature must answer, DKIM selectors, … | full access |
+| `add_custom_check` | Describe what must be true on a page; Relvato's AI writes the monitor. | full access |
+| `edit_custom_check` | Give a custom monitor a new goal or page; the AI writes a new recipe to approve. | full access |
+| `reauthor_custom_check` | Answer the AI's question, or have it write a custom monitor's recipe again. | full access |
+| `approve_custom_check` | Approve a proposed recipe so the custom monitor runs (interactive recipes need an explicit OK). | full access |
+| `update_site_settings` | Pacing, spacing between runs, firewall retry, flaky-monitor recovery, plugin rollback. | full access |
+| `update_alert_settings` | Alert timing and minimum severity. Who receives alerts and muting stay in the dashboard. | full access |
+
+### Run and act
+
+| Tool | What it does | Access needed |
+| --- | --- | --- |
+| `trigger_scan` | Run a site's monitors now — all, one group, or one monitor — and get the run ids back (uses the monthly quota). | full access |
+| `cancel_queued_runs` | Stop a site's queued runs; the one already going finishes. | full access |
+| `request_ai_fix` | Ask Relvato's AI for a fix suggestion for a failed run (paid plans). | full access |
+| `apply_fix` | WordPress: apply the one-click fix a run proposes — only that fix — then re-run the monitor. | full access |
+| `start_safe_update` | WordPress: update or deactivate a vulnerable plugin, re-check, and undo it if anything breaks. | full access |
+| `start_quarantine` | After a hack: hourly security runs for 48 hours with plugin updates paused. | full access |
+| `extend_quarantine` | Keep quarantine mode on for another 48 hours. | full access |
+| `send_test_alert` | Send a test alert by email, Slack or webhook. | full access |
+| `resume_webhook` | Turn webhook alerts back on after Relvato paused them for failed deliveries. | full access |
+| `report_false_positive` | Tell Relvato's team a result is wrong; it changes nothing on the run. | full access |
+
+### Review results
+
+| Tool | What it does | Access needed |
+| --- | --- | --- |
+| `ignore_finding` | Stop a finding from counting on a monitor (undoable). Only when you confirm it's expected. | full access |
+| `unignore_finding` | Make an ignored finding count again. | full access |
+| `accept_visual_change` | Make this run's screenshot the new baseline for a page (undoable). | full access |
+| `ignore_visual_change` | Ignore the area that changed on a page from now on (undoable). | full access |
+| `flag_visual_change_as_problem` | Mark a visual change the AI let pass as a failure. | full access |
+| `undo_visual_review` | Undo the last visual accept or ignore. | full access |
+| `accept_structure_change` | Adopt a page's new structure as its baseline (undoable). | full access |
+| `ignore_structure_change` | Ignore specific element changes on a page (undoable). | full access |
+| `undo_structure_review` | Undo the last structure accept or ignore. | full access |
 
 `initialize` and `tools/list` answer without signing in, so directories and clients can show what the server offers.
 Every tool call needs a sign-in or a key. A read-only key, or a sign-in without write access, gets only the read tools.
@@ -185,18 +250,28 @@ Every tool call needs a sign-in or a key. A read-only key, or a sign-in without 
 ## Things to ask
 
 - "Set up monitoring for example.com and tell me what I need to do to connect it."
-- "Why did checkout fail on my shop last night, and how do I fix it?"
-- "Who gets alerted when a Security check fails, and on which channels?"
-- "Run the checks on my site now and tell me if anything broke."
+- "Add my pricing and blog pages to the visual monitor, and run it."
+- "Why did checkout fail on my shop last night, and how do I fix it?" (and, once you agree, "apply that fix")
+- "How fast is my shop for real visitors, and what's slowing it down?"
+- "The homepage redesign is intentional: accept the new screenshots."
+- "Who signed in to WordPress this week, and did anyone fail to?"
+- "Write a monitor that checks the Pro plan still shows a price."
 
 ## What an agent can't do
 
-These stay in the Relvato dashboard, with a person looking:
+The agent works under the same rules as the dashboard. Some things stay in the dashboard, with a person looking:
 
-- **Skip ownership.** A new site runs no checks until its WordPress plugin is connected or its domain is verified.
-- **Accept changes.** Accepting new visual baselines and ignoring warnings are done in the dashboard.
-- **Apply fixes.** No fixes are applied to your site.
-- **Touch secrets.** Connect tokens, signing secrets and webhook URLs are never exposed.
+- **Skip ownership.** A new site runs no monitors until its WordPress plugin is connected or its domain is verified.
+- **Silence something for good.** It can accept or ignore a result only in ways that can be undone, and only when you
+  confirm the change is intended. Approving file-integrity, script and DNS changes (no undo; exactly what an attacker
+  wants clicked) stays in the dashboard.
+- **Change your site beyond what a run proposes.** On WordPress it applies only the one-click fix a run proposes, and
+  updates or deactivates a vulnerable plugin only with automatic undo. Destructive tools are marked, so your client
+  asks you first.
+- **Weaken alerts or protection.** Who receives alerts, muting, stopping quarantine mode, the proxy and the firewall
+  token stay in the dashboard.
+- **Touch secrets.** Connect tokens, signing secrets, webhook URLs and report share links are never exposed.
+- **Delete anything, or change billing.**
 - **Go past your plan.** Plan limits apply exactly as in the dashboard.
 
 ## Limits
@@ -211,13 +286,14 @@ or use a key:
 | Business | 600 |
 | Agency | 2,400 |
 
-Runs started with `trigger_scan` count toward the same monthly run quota as scheduled checks. See
+Runs started with `trigger_scan` (and the runs that confirm `apply_fix` and `start_safe_update`) count toward the same
+monthly run quota as scheduled runs. See
 [pricing](https://www.relvato.com/pricing).
 
 ## Also available
 
-- **REST API.** The same data at `https://app.relvato.com/api/v1`, using the same keys. See the
-  [developer docs](https://www.relvato.com/developers).
+- **REST API.** The same read data at `https://app.relvato.com/api/v1` (sites, health, performance, runs, monitors,
+  updates, activity, notifications), using the same keys. See the [developer docs](https://www.relvato.com/developers).
 - **Webhooks.** A signed JSON event for every alert (Pro and up).
 
 ## Support

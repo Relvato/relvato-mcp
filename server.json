@@ -2,8 +2,8 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "com.relvato/relvato",
   "title": "Relvato",
-  "description": "Website monitoring: list sites and checks, run scans, read results and fix prompts.",
-  "version": "2.1.0",
+  "description": "Website monitoring: add sites, configure and run monitors, read health, review results, apply fixes.",
+  "version": "3.0.0",
   "websiteUrl": "https://www.relvato.com/developers",
   "repository": {
     "url": "https://github.com/Relvato/relvato-mcp",

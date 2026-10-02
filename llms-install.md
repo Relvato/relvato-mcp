@@ -19,8 +19,8 @@ If they don't have one, tell them to:
 
 1. Sign in or sign up (there's a free plan) at https://app.relvato.com
 2. Open **API access** from the account menu, or go to https://app.relvato.com/api-access
-3. Click **Create API key**. Choose **full access** if you should be able to add sites and run scans; **read-only** only
-   lets you read results.
+3. Click **Create API key**. Choose **full access** if you should be able to add and configure sites and monitors, run
+   them and review results; **read-only** only lets you read.
 
 Never guess a key, and never write one into a file inside a git repository.
 
@@ -61,7 +61,7 @@ Call the `list_sites` tool.
 ## Notes
 
 - Transport is streamable HTTP over POST, stateless. The server doesn't use SSE or a long-lived connection.
-- A new site runs no checks until its owner connects the WordPress plugin or verifies the domain. `add_site` returns the
+- A new site runs no monitors until its owner connects the WordPress plugin or verifies the domain. `add_site` returns the
   exact step; relay it to the user, because you can't do it for them.
 - Runs started with `trigger_scan` use the account's monthly run quota.
 - Docs: https://www.relvato.com/developers
