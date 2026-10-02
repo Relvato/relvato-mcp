@@ -33,7 +33,8 @@ holds the connection details, the registry entry ([`server.json`](server.json)) 
 
 Sign-in works in clients that identify themselves with a **Client ID Metadata Document** (CIMD): Claude (claude.ai,
 Desktop, and Claude Code 2.1.81 or later), ChatGPT and VS Code. Relvato doesn't offer dynamic client registration, so a
-client that can only register itself that way (Cursor for now, the Gemini CLI, Docker's MCP gateway) uses an
+client that can only register itself that way (Cursor for now, the Gemini CLI, Docker's MCP gateway), or that has no
+sign-in at all (DeepSeek Harness), uses an
 [API key](#or-use-an-api-key) instead.
 
 In a client that supports it, add the endpoint with nothing else. The first time the client uses it, it opens Relvato's sign-in:
@@ -182,6 +183,17 @@ Without the extension, add the server to `~/.gemini/settings.json`:
   }
 }
 ```
+
+### DeepSeek Harness
+
+Add the [dsh-plugin-relvato](https://github.com/Relvato/dsh-plugin-relvato) bundle to a profile, with your API key in
+`RELVATO_API_KEY` (your environment or `~/.dsh/.env`):
+
+```bash
+dsh plugin --profile web add github:Relvato/dsh-plugin-relvato
+```
+
+dsh's MCP client sends headers and has no sign-in, so it uses the key. The tools appear as `mcp__relvato__<tool>`.
 
 ### Cline
 
