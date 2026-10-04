@@ -239,7 +239,7 @@ ID Metadata Documents (CIMD), that's all. Otherwise (including clients that only
 
 ## Tools
 
-52 tools, grouped by job in the order `tools/list` sends them. **read** tools work with any connection; **full access** tools need a full-access key, or a sign-in that allowed changes.
+54 tools, grouped by job in the order `tools/list` sends them. **read** tools work with any connection; **full access** tools need a full-access key, or a sign-in that allowed changes.
 
 ### Set up
 
@@ -280,6 +280,8 @@ ID Metadata Documents (CIMD), that's all. Otherwise (including clients that only
 | Tool | What it does | Access needed |
 | --- | --- | --- |
 | `update_check` | Turn a monitor on or off, or change when it runs: schedule, re-runs on WordPress updates, random extra runs. | full access |
+| `pause_monitor_group` | Pause a whole monitoring group for 1 hour, 24 hours or until resumed, during maintenance; exactly the monitors it switched off come back on. | full access |
+| `resume_monitor_group` | Resume a paused group now; a monitor the plan no longer allows stays off, with the reason. | full access |
 | `update_visual_monitor` | Add pages of your own by address to the visual monitor, set masks, devices, browsers and the threshold. | full access |
 | `update_check_settings` | A monitor's own settings: checkout details, extra pages to scan, what the site's AI feature must answer, DKIM selectors, … | full access |
 | `add_custom_check` | Describe what must be true on a page; Relvato's AI writes the monitor. | full access |

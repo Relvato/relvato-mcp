@@ -3,7 +3,7 @@
   "name": "com.relvato/relvato",
   "title": "Relvato",
   "description": "Website monitoring: add sites, configure and run monitors, read health, review results, apply fixes.",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "websiteUrl": "https://www.relvato.com/developers",
   "repository": {
     "url": "https://github.com/Relvato/relvato-mcp",
