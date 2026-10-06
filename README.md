@@ -239,7 +239,7 @@ ID Metadata Documents (CIMD), that's all. Otherwise (including clients that only
 
 ## Tools
 
-54 tools, grouped by job in the order `tools/list` sends them. **read** tools work with any connection; **full access** tools need a full-access key, or a sign-in that allowed changes.
+57 tools, grouped by job in the order `tools/list` sends them. **read** tools work with any connection; **full access** tools need a full-access key, or a sign-in that allowed changes.
 
 ### Set up
 
@@ -274,6 +274,7 @@ ID Metadata Documents (CIMD), that's all. Otherwise (including clients that only
 | `get_site_settings` | A site's settings — what an agent may change and what stays in the dashboard (never secret values). | read |
 | `get_alert_settings` | Who is told about what: frequency, severity, each channel's state and routing — no URLs or secrets. | read |
 | `get_status_pages` | Status pages and client reports: settings only, never a private link or recipients' addresses. | read |
+| `list_heartbeats` | A site's heartbeats (cron jobs that check in): state, schedule, last ping, missed check-ins — and the ping URLs on full access. | read |
 
 ### Tune
 
@@ -290,6 +291,8 @@ ID Metadata Documents (CIMD), that's all. Otherwise (including clients that only
 | `approve_custom_check` | Approve a proposed recipe so the custom monitor runs (interactive recipes need an explicit OK). | full access |
 | `update_site_settings` | Pacing, spacing between runs, firewall retry, flaky-monitor recovery, plugin rollback. | full access |
 | `update_alert_settings` | Alert timing and minimum severity. Who receives alerts and muting stay in the dashboard. | full access |
+| `add_heartbeat` | Create a heartbeat for a cron job or backup and get the URL the job requests when it succeeds. | full access |
+| `update_heartbeat` | Rename, reschedule, pause or resume a heartbeat. Deleting stays in the dashboard. | full access |
 
 ### Run and act
 
