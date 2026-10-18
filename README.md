@@ -249,8 +249,8 @@ ID Metadata Documents (CIMD), that's all. Otherwise (including clients that only
 | `add_site` | Add a website and get its setup step: connect the WordPress plugin, or verify the domain. Until then it can test the public monitors 3 times a day. | full access |
 | `verify_site` | Check that setup step: the plugin connection, or the domain-verification DNS record or meta tag. | full access |
 | `start_monitoring_for_goals` | Pick what matters (checkout, security, search, speed, …) and get the monitors that cover it on your plan. | full access |
-| `list_checks` | The monitors you can add to a site: what each catches, whether your plan includes it, and which are recommended. | read |
-| `add_checks` | Add monitors to a site; each one reports added, already there, or why not. | full access |
+| `list_checks` | The monitors you can add to a site: what each catches, whether your plan includes it, and which are recommended. Before ownership is proven: which run as a test now, and what proof adds. | read |
+| `add_checks` | Add monitors to a site; each one reports added, already there, or why not. Their schedule starts once ownership is proven. | full access |
 | `dismiss_recommendation` | Stop recommending a monitor for a site, or bring dismissed recommendations back. | full access |
 | `calibrate_site` | WooCommerce: read the store again (a product to buy, checkout type, currency) after it changed. | full access |
 | `verify_vitals_beacon` | Check the real-user Web Vitals beacon is installed. | full access |

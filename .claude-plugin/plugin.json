@@ -1,7 +1,7 @@
 {
   "name": "relvato",
   "displayName": "Relvato",
-  "version": "3.4.0",
+  "version": "3.5.0",
   "description": "Website monitoring from Claude Code: set up Relvato for the site this repo deploys, run its monitors after a deploy, and fix a failed run in the code, with Relvato's hosted MCP server (58 tools).",
   "author": {
     "name": "Relvato",
