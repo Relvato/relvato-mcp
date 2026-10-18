@@ -246,10 +246,10 @@ ID Metadata Documents (CIMD), that's all. Otherwise (including clients that only
 | Tool | What it does | Access needed |
 | --- | --- | --- |
 | `list_sites` | List the account's websites and whether each is ready to run monitors. | read |
-| `add_site` | Add a website and get its setup step: connect the WordPress plugin, or verify the domain. Until then it can test the public monitors 3 times a day. | full access |
+| `add_site` | Add a website and get its setup step: connect the WordPress plugin, or verify the domain. Until then it can run the public monitors by hand, 3 times a day (real runs on the live site). | full access |
 | `verify_site` | Check that setup step: the plugin connection, or the domain-verification DNS record or meta tag. | full access |
 | `start_monitoring_for_goals` | Pick what matters (checkout, security, search, speed, …) and get the monitors that cover it on your plan. | full access |
-| `list_checks` | The monitors you can add to a site: what each catches, whether your plan includes it, and which are recommended. Before ownership is proven: which run as a test now, and what proof adds. | read |
+| `list_checks` | The monitors you can add to a site: what each catches, whether your plan includes it, and which are recommended. Before ownership is proven: which can run now (started by hand), and what proof adds. | read |
 | `add_checks` | Add monitors to a site; each one reports added, already there, or why not. Their schedule starts once ownership is proven. | full access |
 | `dismiss_recommendation` | Stop recommending a monitor for a site, or bring dismissed recommendations back. | full access |
 | `calibrate_site` | WooCommerce: read the store again (a product to buy, checkout type, currency) after it changed. | full access |
@@ -298,7 +298,7 @@ ID Metadata Documents (CIMD), that's all. Otherwise (including clients that only
 
 | Tool | What it does | Access needed |
 | --- | --- | --- |
-| `trigger_scan` | Run a site's monitors now — all, one group, or one monitor — and get the run ids back (uses the monthly quota). Before ownership is proven: a test run of the public monitors, 3 a day per domain. | full access |
+| `trigger_scan` | Run a site's monitors now — all, one group, or one monitor — and get the run ids back (uses the monthly quota). Before ownership is proven: the public monitors only, started by hand, 3 a day per domain. | full access |
 | `cancel_queued_runs` | Stop a site's queued runs; the one already going finishes. | full access |
 | `request_ai_fix` | Ask Relvato's AI for a fix suggestion for a failed run (paid plans). | full access |
 | `apply_fix` | WordPress: apply the one-click fix a run proposes — only that fix — then re-run the monitor. | full access |
@@ -341,8 +341,8 @@ Every tool call needs a sign-in or a key. A read-only key, or a sign-in without 
 
 The agent works under the same rules as the dashboard. Some things stay in the dashboard, with a person looking:
 
-- **Skip ownership.** Until a site's WordPress plugin is connected or its domain is verified, it gets only test runs of its
-  public monitors (3 a day per domain, no alerts); schedules, alerts and the monitors that act on the site wait for the proof.
+- **Skip ownership.** Until a site's WordPress plugin is connected or its domain is verified, its public monitors run only
+  when started by hand (3 a day per domain, no alerts); schedules, alerts and the monitors that act on the site wait for the proof.
 - **Silence something for good.** It can accept or ignore a result only in ways that can be undone, and only when you
   confirm the change is intended. Approving file-integrity, script and DNS changes (no undo; exactly what an attacker
   wants clicked) stays in the dashboard.
