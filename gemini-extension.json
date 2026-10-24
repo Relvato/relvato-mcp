@@ -1,7 +1,7 @@
 {
   "name": "relvato",
-  "version": "3.5.0",
-  "description": "Website monitoring your AI agent can run: add sites, set up and run monitors, read health, performance and uptime, review results with undo, and apply the fix a run proposes.",
+  "version": "3.5.1",
+  "description": "Website monitoring your AI agent can run: uptime, checkout, security, speed, SEO (Google Search Console, Bing), domain and compliance monitors. Add sites, run monitors, read results and apply fixes.",
   "mcpServers": {
     "relvato": {
       "httpUrl": "https://app.relvato.com/api/mcp",

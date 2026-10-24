@@ -1,7 +1,7 @@
 ---
 name: check-after-deploy
 description: Run a site's Relvato monitors right after a deploy and report what passed and what broke, with links. Use after deploying, releasing or merging to production, when the user wants to know the live site still works.
-argument-hint: "[site URL or name] [group: flow|security|design|seo|domain|other]"
+argument-hint: "[site URL or name] [group: uptime|flow|security|performance|seo|design|domain|compliance]"
 disable-model-invocation: true
 ---
 

@@ -1,8 +1,8 @@
 {
   "name": "relvato",
   "displayName": "Relvato",
-  "version": "3.5.0",
-  "description": "Website monitoring from Claude Code: set up Relvato for the site this repo deploys, run its monitors after a deploy, and fix a failed run in the code, with Relvato's hosted MCP server (58 tools).",
+  "version": "3.5.1",
+  "description": "Website monitoring with Relvato's hosted MCP server: uptime and SSL, checkout and logins, security, Core Web Vitals, SEO with Google Search Console and Bing, visual changes, domain and DNS, and legal compliance. Report on a site, explain its search traffic, review its security, set up monitoring, check the site after a deploy and fix failures.",
   "author": {
     "name": "Relvato",
     "email": "contact@relvato.com",
@@ -11,7 +11,7 @@
   "homepage": "https://www.relvato.com/developers",
   "repository": "https://github.com/Relvato/relvato-mcp",
   "license": "MIT",
-  "keywords": ["website monitoring", "uptime", "deploy", "wordpress", "woocommerce", "core web vitals", "visual regression", "mcp"],
+  "keywords": ["website monitoring", "uptime", "ssl", "checkout", "woocommerce", "wordpress", "security", "malware", "vulnerabilities", "seo", "google search console", "bing webmaster tools", "core web vitals", "visual regression", "broken links", "dns", "accessibility", "cookie consent", "mcp"],
   "icon": "./assets/logo.png",
   "documentationUrl": "https://www.relvato.com/developers",
   "supportUrl": "https://www.relvato.com/contact",

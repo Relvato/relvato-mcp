@@ -1,6 +1,6 @@
 {
   "name": "relvato",
-  "description": "Relvato's Claude Code plugin: website monitoring with Relvato's hosted MCP server.",
+  "description": "Relvato's Claude plugin: website monitoring (uptime, checkout, security, speed, SEO, domain, compliance) with Relvato's hosted MCP server.",
   "owner": {
     "name": "Relvato",
     "email": "contact@relvato.com",
@@ -10,7 +10,7 @@
     {
       "name": "relvato",
       "source": "./",
-      "description": "Set up Relvato for this repo's site, run its monitors after a deploy, and fix a failed run in the code."
+      "description": "Report on a site's monitors, explain its Google and Bing search traffic, review its security, set it up, check it after a deploy and fix a failed run."
     }
   ]
 }

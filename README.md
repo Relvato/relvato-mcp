@@ -13,13 +13,16 @@
 
 ---
 
-[Relvato](https://www.relvato.com) monitors websites in a real browser. It checks sign-ups, logins, checkout, payments,
-page speed, search visibility and security, and re-checks them every time the site changes. It works on any website and
-goes deepest on WordPress & WooCommerce.
+[Relvato](https://www.relvato.com) is a website monitoring platform. Its monitors cover uptime and SSL; user flows like
+sign-up, login, cart and checkout; security (vulnerable plugins, signs of a hack, changed files, new admins); Core Web
+Vitals and real-user speed; visual regressions and broken links; SEO and AI search, including your Google Search Console
+and Bing Webmaster Tools numbers; domain, DNS and email records; and legal compliance (cookie consent, accessibility).
+They run in a real browser on any website, go deepest on WordPress & WooCommerce, and run again every time the site
+changes.
 
 This is Relvato's **hosted** [Model Context Protocol](https://modelcontextprotocol.io) server. There's nothing to
 install or run: point your MCP client at the URL and **sign in to Relvato**, or use a Relvato API key. This repository
-holds the connection details, the registry entry ([`server.json`](server.json)) and the Claude Code plugin
+holds the connection details, the registry entry ([`server.json`](server.json)) and the Claude plugin
 ([`.claude-plugin/`](.claude-plugin), [`skills/`](skills)). The server itself runs at Relvato.
 
 | | |
@@ -72,7 +75,8 @@ sign in.
 
 ### Claude Code
 
-**The plugin** (recommended): the server plus three skills for working from a code repo.
+**The plugin** (recommended): the server plus six skills, three for any conversation about your sites and three for
+working from a code repo.
 
 ```bash
 claude plugin marketplace add Relvato/relvato-mcp
@@ -83,12 +87,19 @@ Then run `/mcp`, choose **plugin:relvato:relvato**, then **Authenticate**. The s
 
 | Skill | What it does |
 | --- | --- |
+| `/relvato:site-health [site]` | Reports how a site is doing across all its monitors (uptime, user flows, security, speed, SEO, design, domain, compliance) and what needs attention first. Reads results only. |
+| `/relvato:search-traffic [site] [google\|bing]` | Explains the site's Google Search Console and Bing Webmaster Tools numbers against its usual: clicks, impressions, position, pages in the index, the pages and queries losing ground, crawl errors and sitemaps, plus SEO integrity and AI answer engines. |
+| `/relvato:security-review [site]` | Reviews the security monitors: vulnerable plugins, signs of a hack, changed files, new admins, exposed files and new scripts, in order of urgency, and what to do first. |
 | `/relvato:setup [url]` | Adds the site this repo deploys, proves ownership (it can add the verification meta tag to your code), picks monitors for what matters and starts the first runs. |
 | `/relvato:check-after-deploy [site] [group]` | Runs the site's monitors after a deploy, says how long they'll take, and reports what passed and what broke, with links. Only runs when you type it, since runs use your monthly quota. |
 | `/relvato:fix-failure [run]` | Reads a failed run and its fix brief, finds the cause in the code (including what changed since it last passed), makes the smallest fix with your OK, then re-runs that monitor. |
 
 Already added Relvato on claude.ai? With a Claude subscription, that connector shows up in Claude Code too. The skills
 work with either connection.
+
+The plugin has no code of its own: it adds Relvato's hosted MCP server (`https://app.relvato.com/api/mcp`) and these
+skills, which are written instructions for Claude. Claude sends your requests to that server only, after you sign in to
+Relvato. Starting runs counts toward your plan's monthly runs, so the skills ask before they start any.
 
 **Just the server:**
 
